@@ -20,23 +20,22 @@ img_map = {
     4: ("setUp/medical.png", "setUp/medicaltxt.png"),
 }
 
-# -------------------------- Interfraz --------------------------
+# -------------------------- Interfaz --------------------------
 st.set_page_config(page_title="Clasificador de Residuos", layout="centered")
 st.markdown("# ♻️ Detecta y Recicla")
 st.markdown("### Aprende a separar correctamente tus residuos")
 st.markdown("Sube una imagen o usa tu cámara para identificar el tipo de residuo y su caneca correspondiente.")
 
-# -------------------------- OPCION 1: subir imagen ---------------------------------
+# -------------------------- OPCIÓN 1: subir imagen --------------------------
 uploaded_file = st.file_uploader("📁 Sube una imagen del residuo", type=["jpg", "jpeg", "png"])
 
-# -------------------------- OPCIÓN 2: USAR CÁMARA --------------------------
+# -------------------------- OPCIÓN 2: usar cámara --------------------------
 st.markdown("---")
 st.markdown("### 📷 O toma una foto desde tu cámara")
 camera_image = st.camera_input("Haz clic para tomar una foto")
 
-# -------------------------- Deteccion -----------------------
+# -------------------------- Detección --------------------------
 image_to_process = None
-
 
 try:
     if uploaded_file:
@@ -44,7 +43,7 @@ try:
     elif camera_image:
         image_to_process = Image.open(camera_image)
 except UnidentifiedImageError:
-    st.error(" No se pudo leer la imagen. Por favor, intenta con otra.")
+    st.error("No se pudo leer la imagen. Por favor, intenta con otra.")
     image_to_process = None
 
 if image_to_process is not None:
@@ -52,7 +51,7 @@ if image_to_process is not None:
         img_np = np.array(image_to_process)
         img_bgr = cv2.cvtColor(img_np, cv2.COLOR_RGB2BGR)
 
-        st.image(img_np, caption=" Imagen capturada", use_container_width=True)
+        st.image(img_np, caption="Imagen capturada")  # ❌ se quitó use_container_width
 
         results = model(img_bgr)[0]
 
@@ -71,14 +70,14 @@ if image_to_process is not None:
 
                 col1, col2 = st.columns(2)
                 with col1:
-                    st.image(img_map[cls_id][0], caption="Categoría", use_container_width=True)
+                    st.image(img_map[cls_id][0], caption="Categoría")  # ❌ se quitó use_container_width
                 with col2:
-                    st.image(img_map[cls_id][1], caption="Descripción", use_container_width=True)
+                    st.image(img_map[cls_id][1], caption="Descripción")  # ❌ se quitó use_container_width
         else:
             st.warning("No se detectó ningún residuo. Intenta con otra imagen.")
 
         # Mostrar imagen con resultados
-        st.image(cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB), caption="Resultado del análisis", use_container_width=True)
+        st.image(cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB), caption="Resultado del análisis")  # ❌ se quitó use_container_width
 
     except Exception as e:
         st.error(f"Error durante el análisis: {e}")
