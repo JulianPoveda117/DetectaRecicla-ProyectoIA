@@ -1,3 +1,7 @@
+import os
+os.environ["STREAMLIT_DISABLE_WATCHDOG_WARNINGS"] = "1"
+os.environ["STREAMLIT_WATCHED_FILES"] = ""
+
 import streamlit as st
 from PIL import Image
 import cv2
